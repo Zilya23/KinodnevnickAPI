@@ -1,0 +1,896 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Хранилище kinoodModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Award">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar(max)" />
+          <Property Name="Description" Type="nvarchar(max)" />
+          <Property Name="Photo" Type="varbinary(max)" />
+          <Property Name="Achievement_Condition" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="Award_User">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ID_Award" Type="int" />
+          <Property Name="ID_User" Type="int" />
+          <Property Name="IsDone" Type="bit" />
+        </EntityType>
+        <EntityType Name="Collection">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar(max)" />
+          <Property Name="ID_User" Type="int" />
+          <Property Name="IsDeleted" Type="bit" />
+          <Property Name="Inkognito" Type="bit" />
+        </EntityType>
+        <EntityType Name="Film">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar(max)" />
+          <Property Name="Description" Type="nvarchar(max)" />
+          <Property Name="Poster" Type="varbinary(max)" />
+          <Property Name="Date_Issue" Type="date" />
+          <Property Name="Duration" Type="int" />
+        </EntityType>
+        <EntityType Name="Film_Calendar">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Date" Type="date" />
+          <Property Name="ID_User" Type="int" />
+          <Property Name="ID_Film" Type="int" />
+          <Property Name="Description" Type="nvarchar(max)" />
+          <Property Name="Start_Time" Type="time" Precision="7" />
+          <Property Name="End_Time" Type="time" Precision="7" />
+        </EntityType>
+        <EntityType Name="Film_Collection">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ID_Film" Type="int" />
+          <Property Name="ID_Collection" Type="int" />
+          <Property Name="Date" Type="date" />
+        </EntityType>
+        <EntityType Name="Follow">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ID_Follower_User" Type="int" />
+          <Property Name="ID_Following_User" Type="int" />
+          <Property Name="Date_follow" Type="date" />
+        </EntityType>
+        <EntityType Name="Level">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Count_XP" Type="int" />
+          <Property Name="Lvl_Award" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="Question">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ID__Test" Type="int" />
+          <Property Name="Question" Type="nvarchar(max)" />
+          <Property Name="Photo" Type="varbinary(max)" />
+          <Property Name="Answer_One" Type="nvarchar(max)" />
+          <Property Name="Answer_Two" Type="nvarchar(max)" />
+          <Property Name="Answer_Three" Type="nvarchar(max)" />
+          <Property Name="True_Answer" Type="nvarchar(max)" />
+          <Property Name="IsDone" Type="bit" />
+        </EntityType>
+        <EntityType Name="Test">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Title" Type="nvarchar(max)" />
+          <Property Name="Descriptin" Type="nvarchar(max)" />
+          <Property Name="Photo" Type="varbinary(max)" />
+          <Property Name="Id_Lvl" Type="int" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nickname" Type="nvarchar(max)" />
+          <Property Name="Login" Type="nvarchar(max)" />
+          <Property Name="Password" Type="nvarchar(max)" />
+          <Property Name="User_Level" Type="int" />
+          <Property Name="Photo" Type="varbinary(max)" />
+          <Property Name="Count_XP" Type="int" />
+        </EntityType>
+        <EntityType Name="User_Test">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ID_User" Type="int" />
+          <Property Name="ID_Test" Type="int" />
+          <Property Name="IsComplite" Type="bit" />
+          <Property Name="Date" Type="date" />
+        </EntityType>
+        <Association Name="FK_Award_User_Award">
+          <End Role="Award" Type="Self.Award" Multiplicity="0..1" />
+          <End Role="Award_User" Type="Self.Award_User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Award">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Award_User">
+              <PropertyRef Name="ID_Award" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Award_User_User">
+          <End Role="User" Type="Self.User" Multiplicity="0..1" />
+          <End Role="Award_User" Type="Self.Award_User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Award_User">
+              <PropertyRef Name="ID_User" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Collection_User">
+          <End Role="User" Type="Self.User" Multiplicity="0..1" />
+          <End Role="Collection" Type="Self.Collection" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Collection">
+              <PropertyRef Name="ID_User" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Film_Calendar_Film">
+          <End Role="Film" Type="Self.Film" Multiplicity="0..1" />
+          <End Role="Film_Calendar" Type="Self.Film_Calendar" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Film">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Film_Calendar">
+              <PropertyRef Name="ID_Film" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Film_Calendar_User">
+          <End Role="User" Type="Self.User" Multiplicity="0..1" />
+          <End Role="Film_Calendar" Type="Self.Film_Calendar" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Film_Calendar">
+              <PropertyRef Name="ID_User" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Film_Collection_Collection">
+          <End Role="Collection" Type="Self.Collection" Multiplicity="0..1" />
+          <End Role="Film_Collection" Type="Self.Film_Collection" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Collection">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Film_Collection">
+              <PropertyRef Name="ID_Collection" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Film_Collection_Film">
+          <End Role="Film" Type="Self.Film" Multiplicity="0..1" />
+          <End Role="Film_Collection" Type="Self.Film_Collection" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Film">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Film_Collection">
+              <PropertyRef Name="ID_Film" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Follow_User">
+          <End Role="User" Type="Self.User" Multiplicity="0..1" />
+          <End Role="Follow" Type="Self.Follow" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Follow">
+              <PropertyRef Name="ID_Follower_User" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Follow_User1">
+          <End Role="User" Type="Self.User" Multiplicity="0..1" />
+          <End Role="Follow" Type="Self.Follow" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Follow">
+              <PropertyRef Name="ID_Following_User" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Question_Test">
+          <End Role="Test" Type="Self.Test" Multiplicity="0..1" />
+          <End Role="Question" Type="Self.Question" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Test">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Question">
+              <PropertyRef Name="ID__Test" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Test_Level">
+          <End Role="Level" Type="Self.Level" Multiplicity="0..1" />
+          <End Role="Test" Type="Self.Test" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Level">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Test">
+              <PropertyRef Name="Id_Lvl" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_User_Test_Test">
+          <End Role="Test" Type="Self.Test" Multiplicity="0..1" />
+          <End Role="User_Test" Type="Self.User_Test" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Test">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="User_Test">
+              <PropertyRef Name="ID_Test" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_User_Test_User">
+          <End Role="User" Type="Self.User" Multiplicity="0..1" />
+          <End Role="User_Test" Type="Self.User_Test" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="User_Test">
+              <PropertyRef Name="ID_User" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Хранилище kinoodModelContainer">
+          <EntitySet Name="Award" EntityType="Self.Award" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Award_User" EntityType="Self.Award_User" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Collection" EntityType="Self.Collection" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Film" EntityType="Self.Film" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Film_Calendar" EntityType="Self.Film_Calendar" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Film_Collection" EntityType="Self.Film_Collection" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Follow" EntityType="Self.Follow" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Level" EntityType="Self.Level" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Question" EntityType="Self.Question" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Test" EntityType="Self.Test" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="User_Test" EntityType="Self.User_Test" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Award_User_Award" Association="Self.FK_Award_User_Award">
+            <End Role="Award" EntitySet="Award" />
+            <End Role="Award_User" EntitySet="Award_User" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Award_User_User" Association="Self.FK_Award_User_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="Award_User" EntitySet="Award_User" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Collection_User" Association="Self.FK_Collection_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="Collection" EntitySet="Collection" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Film_Calendar_Film" Association="Self.FK_Film_Calendar_Film">
+            <End Role="Film" EntitySet="Film" />
+            <End Role="Film_Calendar" EntitySet="Film_Calendar" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Film_Calendar_User" Association="Self.FK_Film_Calendar_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="Film_Calendar" EntitySet="Film_Calendar" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Film_Collection_Collection" Association="Self.FK_Film_Collection_Collection">
+            <End Role="Collection" EntitySet="Collection" />
+            <End Role="Film_Collection" EntitySet="Film_Collection" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Film_Collection_Film" Association="Self.FK_Film_Collection_Film">
+            <End Role="Film" EntitySet="Film" />
+            <End Role="Film_Collection" EntitySet="Film_Collection" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Follow_User" Association="Self.FK_Follow_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="Follow" EntitySet="Follow" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Follow_User1" Association="Self.FK_Follow_User1">
+            <End Role="User" EntitySet="User" />
+            <End Role="Follow" EntitySet="Follow" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Question_Test" Association="Self.FK_Question_Test">
+            <End Role="Test" EntitySet="Test" />
+            <End Role="Question" EntitySet="Question" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Test_Level" Association="Self.FK_Test_Level">
+            <End Role="Level" EntitySet="Level" />
+            <End Role="Test" EntitySet="Test" />
+          </AssociationSet>
+          <AssociationSet Name="FK_User_Test_Test" Association="Self.FK_User_Test_Test">
+            <End Role="Test" EntitySet="Test" />
+            <End Role="User_Test" EntitySet="User_Test" />
+          </AssociationSet>
+          <AssociationSet Name="FK_User_Test_User" Association="Self.FK_User_Test_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="User_Test" EntitySet="User_Test" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="kinoodModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Award">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Photo" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="Achievement_Condition" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Award_User" Relationship="Self.FK_Award_User_Award" FromRole="Award" ToRole="Award_User" />
+        </EntityType>
+        <EntityType Name="Award_User">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ID_Award" Type="Int32" />
+          <Property Name="ID_User" Type="Int32" />
+          <Property Name="IsDone" Type="Boolean" />
+          <NavigationProperty Name="Award" Relationship="Self.FK_Award_User_Award" FromRole="Award_User" ToRole="Award" />
+          <NavigationProperty Name="User" Relationship="Self.FK_Award_User_User" FromRole="Award_User" ToRole="User" />
+        </EntityType>
+        <EntityType Name="Collection">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ID_User" Type="Int32" />
+          <Property Name="IsDeleted" Type="Boolean" />
+          <Property Name="Inkognito" Type="Boolean" />
+          <NavigationProperty Name="User" Relationship="Self.FK_Collection_User" FromRole="Collection" ToRole="User" />
+          <NavigationProperty Name="Film_Collection" Relationship="Self.FK_Film_Collection_Collection" FromRole="Collection" ToRole="Film_Collection" />
+        </EntityType>
+        <EntityType Name="Film">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Poster" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="Date_Issue" Type="DateTime" Precision="0" />
+          <Property Name="Duration" Type="Int32" />
+          <NavigationProperty Name="Film_Calendar" Relationship="Self.FK_Film_Calendar_Film" FromRole="Film" ToRole="Film_Calendar" />
+          <NavigationProperty Name="Film_Collection" Relationship="Self.FK_Film_Collection_Film" FromRole="Film" ToRole="Film_Collection" />
+        </EntityType>
+        <EntityType Name="Film_Calendar">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Date" Type="DateTime" Precision="0" />
+          <Property Name="ID_User" Type="Int32" />
+          <Property Name="ID_Film" Type="Int32" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Start_Time" Type="Time" Precision="7" />
+          <Property Name="End_Time" Type="Time" Precision="7" />
+          <NavigationProperty Name="Film" Relationship="Self.FK_Film_Calendar_Film" FromRole="Film_Calendar" ToRole="Film" />
+          <NavigationProperty Name="User" Relationship="Self.FK_Film_Calendar_User" FromRole="Film_Calendar" ToRole="User" />
+        </EntityType>
+        <EntityType Name="Film_Collection">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ID_Film" Type="Int32" />
+          <Property Name="ID_Collection" Type="Int32" />
+          <Property Name="Date" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="Collection" Relationship="Self.FK_Film_Collection_Collection" FromRole="Film_Collection" ToRole="Collection" />
+          <NavigationProperty Name="Film" Relationship="Self.FK_Film_Collection_Film" FromRole="Film_Collection" ToRole="Film" />
+        </EntityType>
+        <EntityType Name="Follow">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ID_Follower_User" Type="Int32" />
+          <Property Name="ID_Following_User" Type="Int32" />
+          <Property Name="Date_follow" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="User" Relationship="Self.FK_Follow_User" FromRole="Follow" ToRole="User" />
+          <NavigationProperty Name="User1" Relationship="Self.FK_Follow_User1" FromRole="Follow" ToRole="User" />
+        </EntityType>
+        <EntityType Name="Level">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Count_XP" Type="Int32" />
+          <Property Name="Lvl_Award" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Test" Relationship="Self.FK_Test_Level" FromRole="Level" ToRole="Test" />
+        </EntityType>
+        <EntityType Name="Question">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ID__Test" Type="Int32" />
+          <Property Name="Question1" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Photo" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="Answer_One" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Answer_Two" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Answer_Three" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="True_Answer" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="IsDone" Type="Boolean" />
+          <NavigationProperty Name="Test" Relationship="Self.FK_Question_Test" FromRole="Question" ToRole="Test" />
+        </EntityType>
+        <EntityType Name="Test">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Title" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Descriptin" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Photo" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="Id_Lvl" Type="Int32" />
+          <NavigationProperty Name="Level" Relationship="Self.FK_Test_Level" FromRole="Test" ToRole="Level" />
+          <NavigationProperty Name="Question" Relationship="Self.FK_Question_Test" FromRole="Test" ToRole="Question" />
+          <NavigationProperty Name="User_Test" Relationship="Self.FK_User_Test_Test" FromRole="Test" ToRole="User_Test" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nickname" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Login" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Password" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="User_Level" Type="Int32" />
+          <Property Name="Photo" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="Count_XP" Type="Int32" />
+          <NavigationProperty Name="Award_User" Relationship="Self.FK_Award_User_User" FromRole="User" ToRole="Award_User" />
+          <NavigationProperty Name="Collection" Relationship="Self.FK_Collection_User" FromRole="User" ToRole="Collection" />
+          <NavigationProperty Name="Film_Calendar" Relationship="Self.FK_Film_Calendar_User" FromRole="User" ToRole="Film_Calendar" />
+          <NavigationProperty Name="Follow" Relationship="Self.FK_Follow_User" FromRole="User" ToRole="Follow" />
+          <NavigationProperty Name="Follow1" Relationship="Self.FK_Follow_User1" FromRole="User" ToRole="Follow" />
+          <NavigationProperty Name="User_Test" Relationship="Self.FK_User_Test_User" FromRole="User" ToRole="User_Test" />
+        </EntityType>
+        <EntityType Name="User_Test">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ID_User" Type="Int32" />
+          <Property Name="ID_Test" Type="Int32" />
+          <Property Name="IsComplite" Type="Boolean" />
+          <Property Name="Date" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="Test" Relationship="Self.FK_User_Test_Test" FromRole="User_Test" ToRole="Test" />
+          <NavigationProperty Name="User" Relationship="Self.FK_User_Test_User" FromRole="User_Test" ToRole="User" />
+        </EntityType>
+        <Association Name="FK_Award_User_Award">
+          <End Role="Award" Type="Self.Award" Multiplicity="0..1" />
+          <End Role="Award_User" Type="Self.Award_User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Award">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Award_User">
+              <PropertyRef Name="ID_Award" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Award_User_User">
+          <End Role="User" Type="Self.User" Multiplicity="0..1" />
+          <End Role="Award_User" Type="Self.Award_User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Award_User">
+              <PropertyRef Name="ID_User" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Collection_User">
+          <End Role="User" Type="Self.User" Multiplicity="0..1" />
+          <End Role="Collection" Type="Self.Collection" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Collection">
+              <PropertyRef Name="ID_User" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Film_Collection_Collection">
+          <End Role="Collection" Type="Self.Collection" Multiplicity="0..1" />
+          <End Role="Film_Collection" Type="Self.Film_Collection" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Collection">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Film_Collection">
+              <PropertyRef Name="ID_Collection" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Film_Calendar_Film">
+          <End Role="Film" Type="Self.Film" Multiplicity="0..1" />
+          <End Role="Film_Calendar" Type="Self.Film_Calendar" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Film">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Film_Calendar">
+              <PropertyRef Name="ID_Film" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Film_Collection_Film">
+          <End Role="Film" Type="Self.Film" Multiplicity="0..1" />
+          <End Role="Film_Collection" Type="Self.Film_Collection" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Film">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Film_Collection">
+              <PropertyRef Name="ID_Film" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Film_Calendar_User">
+          <End Role="User" Type="Self.User" Multiplicity="0..1" />
+          <End Role="Film_Calendar" Type="Self.Film_Calendar" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Film_Calendar">
+              <PropertyRef Name="ID_User" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Follow_User">
+          <End Role="User" Type="Self.User" Multiplicity="0..1" />
+          <End Role="Follow" Type="Self.Follow" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Follow">
+              <PropertyRef Name="ID_Follower_User" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Follow_User1">
+          <End Role="User" Type="Self.User" Multiplicity="0..1" />
+          <End Role="Follow" Type="Self.Follow" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Follow">
+              <PropertyRef Name="ID_Following_User" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Test_Level">
+          <End Role="Level" Type="Self.Level" Multiplicity="0..1" />
+          <End Role="Test" Type="Self.Test" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Level">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Test">
+              <PropertyRef Name="Id_Lvl" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Question_Test">
+          <End Role="Test" Type="Self.Test" Multiplicity="0..1" />
+          <End Role="Question" Type="Self.Question" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Test">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Question">
+              <PropertyRef Name="ID__Test" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_User_Test_Test">
+          <End Role="Test" Type="Self.Test" Multiplicity="0..1" />
+          <End Role="User_Test" Type="Self.User_Test" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Test">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="User_Test">
+              <PropertyRef Name="ID_Test" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_User_Test_User">
+          <End Role="User" Type="Self.User" Multiplicity="0..1" />
+          <End Role="User_Test" Type="Self.User_Test" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="User_Test">
+              <PropertyRef Name="ID_User" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="kinoodEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Award" EntityType="Self.Award" />
+          <EntitySet Name="Award_User" EntityType="Self.Award_User" />
+          <EntitySet Name="Collection" EntityType="Self.Collection" />
+          <EntitySet Name="Film" EntityType="Self.Film" />
+          <EntitySet Name="Film_Calendar" EntityType="Self.Film_Calendar" />
+          <EntitySet Name="Film_Collection" EntityType="Self.Film_Collection" />
+          <EntitySet Name="Follow" EntityType="Self.Follow" />
+          <EntitySet Name="Level" EntityType="Self.Level" />
+          <EntitySet Name="Question" EntityType="Self.Question" />
+          <EntitySet Name="Test" EntityType="Self.Test" />
+          <EntitySet Name="User" EntityType="Self.User" />
+          <EntitySet Name="User_Test" EntityType="Self.User_Test" />
+          <AssociationSet Name="FK_Award_User_Award" Association="Self.FK_Award_User_Award">
+            <End Role="Award" EntitySet="Award" />
+            <End Role="Award_User" EntitySet="Award_User" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Award_User_User" Association="Self.FK_Award_User_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="Award_User" EntitySet="Award_User" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Collection_User" Association="Self.FK_Collection_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="Collection" EntitySet="Collection" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Film_Collection_Collection" Association="Self.FK_Film_Collection_Collection">
+            <End Role="Collection" EntitySet="Collection" />
+            <End Role="Film_Collection" EntitySet="Film_Collection" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Film_Calendar_Film" Association="Self.FK_Film_Calendar_Film">
+            <End Role="Film" EntitySet="Film" />
+            <End Role="Film_Calendar" EntitySet="Film_Calendar" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Film_Collection_Film" Association="Self.FK_Film_Collection_Film">
+            <End Role="Film" EntitySet="Film" />
+            <End Role="Film_Collection" EntitySet="Film_Collection" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Film_Calendar_User" Association="Self.FK_Film_Calendar_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="Film_Calendar" EntitySet="Film_Calendar" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Follow_User" Association="Self.FK_Follow_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="Follow" EntitySet="Follow" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Follow_User1" Association="Self.FK_Follow_User1">
+            <End Role="User" EntitySet="User" />
+            <End Role="Follow" EntitySet="Follow" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Test_Level" Association="Self.FK_Test_Level">
+            <End Role="Level" EntitySet="Level" />
+            <End Role="Test" EntitySet="Test" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Question_Test" Association="Self.FK_Question_Test">
+            <End Role="Test" EntitySet="Test" />
+            <End Role="Question" EntitySet="Question" />
+          </AssociationSet>
+          <AssociationSet Name="FK_User_Test_Test" Association="Self.FK_User_Test_Test">
+            <End Role="Test" EntitySet="Test" />
+            <End Role="User_Test" EntitySet="User_Test" />
+          </AssociationSet>
+          <AssociationSet Name="FK_User_Test_User" Association="Self.FK_User_Test_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="User_Test" EntitySet="User_Test" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Хранилище kinoodModelContainer" CdmEntityContainer="kinoodEntities">
+          <EntitySetMapping Name="Award">
+            <EntityTypeMapping TypeName="kinoodModel.Award">
+              <MappingFragment StoreEntitySet="Award">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Photo" ColumnName="Photo" />
+                <ScalarProperty Name="Achievement_Condition" ColumnName="Achievement_Condition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Award_User">
+            <EntityTypeMapping TypeName="kinoodModel.Award_User">
+              <MappingFragment StoreEntitySet="Award_User">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="ID_Award" ColumnName="ID_Award" />
+                <ScalarProperty Name="ID_User" ColumnName="ID_User" />
+                <ScalarProperty Name="IsDone" ColumnName="IsDone" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Collection">
+            <EntityTypeMapping TypeName="kinoodModel.Collection">
+              <MappingFragment StoreEntitySet="Collection">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ID_User" ColumnName="ID_User" />
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="Inkognito" ColumnName="Inkognito" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Film">
+            <EntityTypeMapping TypeName="kinoodModel.Film">
+              <MappingFragment StoreEntitySet="Film">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Poster" ColumnName="Poster" />
+                <ScalarProperty Name="Date_Issue" ColumnName="Date_Issue" />
+                <ScalarProperty Name="Duration" ColumnName="Duration" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Film_Calendar">
+            <EntityTypeMapping TypeName="kinoodModel.Film_Calendar">
+              <MappingFragment StoreEntitySet="Film_Calendar">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="ID_User" ColumnName="ID_User" />
+                <ScalarProperty Name="ID_Film" ColumnName="ID_Film" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Start_Time" ColumnName="Start_Time" />
+                <ScalarProperty Name="End_Time" ColumnName="End_Time" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Film_Collection">
+            <EntityTypeMapping TypeName="kinoodModel.Film_Collection">
+              <MappingFragment StoreEntitySet="Film_Collection">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="ID_Film" ColumnName="ID_Film" />
+                <ScalarProperty Name="ID_Collection" ColumnName="ID_Collection" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Follow">
+            <EntityTypeMapping TypeName="kinoodModel.Follow">
+              <MappingFragment StoreEntitySet="Follow">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="ID_Follower_User" ColumnName="ID_Follower_User" />
+                <ScalarProperty Name="ID_Following_User" ColumnName="ID_Following_User" />
+                <ScalarProperty Name="Date_follow" ColumnName="Date_follow" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Level">
+            <EntityTypeMapping TypeName="kinoodModel.Level">
+              <MappingFragment StoreEntitySet="Level">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Count_XP" ColumnName="Count_XP" />
+                <ScalarProperty Name="Lvl_Award" ColumnName="Lvl_Award" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Question">
+            <EntityTypeMapping TypeName="kinoodModel.Question">
+              <MappingFragment StoreEntitySet="Question">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="ID__Test" ColumnName="ID__Test" />
+                <ScalarProperty Name="Question1" ColumnName="Question" />
+                <ScalarProperty Name="Photo" ColumnName="Photo" />
+                <ScalarProperty Name="Answer_One" ColumnName="Answer_One" />
+                <ScalarProperty Name="Answer_Two" ColumnName="Answer_Two" />
+                <ScalarProperty Name="Answer_Three" ColumnName="Answer_Three" />
+                <ScalarProperty Name="True_Answer" ColumnName="True_Answer" />
+                <ScalarProperty Name="IsDone" ColumnName="IsDone" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Test">
+            <EntityTypeMapping TypeName="kinoodModel.Test">
+              <MappingFragment StoreEntitySet="Test">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="Descriptin" ColumnName="Descriptin" />
+                <ScalarProperty Name="Photo" ColumnName="Photo" />
+                <ScalarProperty Name="Id_Lvl" ColumnName="Id_Lvl" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="User">
+            <EntityTypeMapping TypeName="kinoodModel.User">
+              <MappingFragment StoreEntitySet="User">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Nickname" ColumnName="Nickname" />
+                <ScalarProperty Name="Login" ColumnName="Login" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="User_Level" ColumnName="User_Level" />
+                <ScalarProperty Name="Photo" ColumnName="Photo" />
+                <ScalarProperty Name="Count_XP" ColumnName="Count_XP" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="User_Test">
+            <EntityTypeMapping TypeName="kinoodModel.User_Test">
+              <MappingFragment StoreEntitySet="User_Test">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="ID_User" ColumnName="ID_User" />
+                <ScalarProperty Name="ID_Test" ColumnName="ID_Test" />
+                <ScalarProperty Name="IsComplite" ColumnName="IsComplite" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
